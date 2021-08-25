@@ -4,7 +4,7 @@
 
 [Moleculer](https://github.com/moleculerjs/moleculer) services for storing user data in the imicros framework
 
-This is a replacemnet of the users service in imicros-auth using neo4j database insteand of MongoDB.
+This is a replacement of the users service in imicros-auth using neo4j database insteand of MongoDB.
 It doesn't support the direct calls of the event handlers to send the verification mails, it just throw the events.
 
 ## Installation
@@ -45,16 +45,16 @@ broker.start();
 
 ```
 ### Actions
-action create { email, password } => { user }
-action requestConfirmationMail { } => { result }
-action confirm { token } => { result }
-action requestPasswordResetMail { email } => { result }
-action resetPassword { token, password } => { result }
-action login { email, password } => { user, token }
-action resolveToken { token } => { user }
-action me { } => { user }
-action requestDeletion { } => { result }
-action confirmDeletion { token } => { result }
+action create { email, password } => { user }  
+action requestConfirmationMail { } => { result }   
+action confirm { token } => { result }  
+action requestPasswordResetMail { email } => { result }  
+action resetPassword { token, password } => { result }  
+action login { email, password } => { user, token }  
+action resolveToken { token } => { user }  
+action me { } => { user }  
+action requestDeletion { } => { result }  
+action confirmDeletion { token } => { result }  
 
 #### Create
 For REST call via API. Or as a direct call:
