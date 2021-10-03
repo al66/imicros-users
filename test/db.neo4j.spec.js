@@ -14,16 +14,18 @@ const Test = {
     name: "test.db",
     mixins: [dbMixin],
     settings: { 
-        uri: process.env.NEO4J_URI || "bolt://localhost:7687",
-        user: "neo4j",
-        password: "neo4j"
+        database: {
+            // uri: process.env.NEO4J_URI,
+            // user: process.env.NEO4J_USER,
+            // password: process.env.NEO4J_PASSWORD
+        }
     }, 
     actions: {
         run(ctx) {
             return this.run(ctx.params)
-            .then(res => {
-                return res;
-            });    
+                .then(res => {
+                    return res;
+                });    
         }
     }
 };

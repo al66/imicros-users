@@ -7,6 +7,8 @@ const { v4: uuid } = require("uuid");
 
 let timestamp = Date.now();
 
+process.env.SERVICE_TOKEN = "bVTWhK8G5ASfoMjVAiUhSLHq2P5p8135PEm+0GRvo4Q=";
+
 // helper service to collect emitted events
 let calls = [];
 const Collect = {
@@ -38,6 +40,7 @@ const KeysMock = {
         getSek: {
             handler(ctx) {
                 if (!ctx.params || !ctx.params.service) throw new Error("Missing service name");
+                if (ctx.params.token !== process.env.SERVICE_TOKEN) throw new Error("Wrong service token");
                 if ( ctx.params.id == keys.previous ) {
                     return {
                         id: keys.previous,
@@ -75,10 +78,12 @@ describe("Test user service", () => {
             initialUser = `admin-${timestamp}@imicros.de`;
             service = await broker.createService(Users, Object.assign({ 
                 settings: {
-                    $secureSettings: ["user", "password", "verifiedUsers"], 
-                    uri: process.env.NEO4J_URI || "bolt://localhost:7687",
-                    user: "neo4j",
-                    password: "neo4j",
+                    $secureSettings: ["database.user", "database.password", "verifiedUsers"], 
+                    database: {
+                        uri: process.env.NEO4J_URI,
+                        user: process.env.NEO4J_USER,
+                        password: process.env.NEO4J_PASSWORD
+                    },
                     verifiedUsers: [initialUser],
                     services: {
                         keys: "keys"

@@ -10,6 +10,7 @@
     "test": "jest --coverage --no-cache --silent",
     "test-travis": "jest --coverage --no-cache --config=travis.js --silent",
     "test-local": "jest --coverage --no-cache --config=local.js --silent",
+    "test-db": "jest test/db.neo4j.spec.js --no-cache --config=local.js",
     "test-users": "jest test/users.spec.js --coverage --no-cache --config=local.js"
   },
   "jest": {
