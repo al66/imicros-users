@@ -1,6 +1,6 @@
 {
   "name": "imicros-users",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Moleculer persistent users store",
   "main": "index.js",
   "directories": {

@@ -2,7 +2,11 @@
 
 const { ServiceBroker } = require("moleculer");
 const { Users } = require("../index");
-const { UserNotCreated, UserNotAuthenticated, UserNotFound, UserAuthentication } = require("../index").Errors;
+const { UserNotCreated, 
+    UserNotAuthenticated, 
+    UserNotFound, 
+    UserAuthentication, 
+    UserVerification } = require("../index").Errors;
 const { v4: uuid } = require("uuid");
 
 let timestamp = Date.now();
@@ -241,6 +245,50 @@ describe("Test user service", () => {
             });
         });
 
+        it("it should send reset password mail", () => {
+            opts = {};
+            let params = {
+                email: email
+            };
+            return broker.call("users.requestPasswordResetMail", params, opts).then(res => {
+                expect(res).toBeDefined();
+                expect(res).toEqual(expect.objectContaining({ sent: email }));
+
+                broker.logger.info("Collected calls",calls);
+                broker.logger.info("Payload",calls["users.password.reset.requested"][0].payload);
+                expect(calls["users.password.reset.requested"]).toBeDefined();
+                expect(calls["users.password.reset.requested"][0].payload.token).toBeDefined();
+                expect(calls["users.password.reset.requested"][0].payload.email).toEqual(email);
+                token = calls["users.password.reset.requested"][0].payload.token;
+            });
+        });
+        
+        it("it should reset password", () => {
+            opts = {};
+            let params = {
+                token: token,
+                password: "my changed secret"
+            };
+            return broker.call("users.resetPassword", params, opts).then(res => {
+                expect(res).toBeDefined();
+                expect(res).toEqual(expect.objectContaining({ reset: id }));
+            });
+        });
+        
+        it("it should throw error AuthUserAuthentication", async () => {
+            opts = {};
+            let params = {
+                token: "wrong token",
+                password: "my changed secret"
+            };
+            expect.assertions(3);
+            await broker.call("users.resetPassword", params, opts).catch(err => {
+                expect(err instanceof UserVerification).toBe(true);
+                expect(err.message).toEqual("token not valid");
+                expect(err.token).toEqual("wrong token");
+            });
+        });
+                
         it("it should send deletion mail", () => {
             opts = { meta: { user: { id: id } } };
             let params = {
