@@ -1,6 +1,6 @@
 {
   "name": "imicros-users",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Moleculer persistent users store",
   "main": "index.js",
   "directories": {
@@ -47,12 +47,12 @@
   },
   "homepage": "https://github.com/al66/imicros-users#readme",
   "devDependencies": {
-    "jest": "^27.0.6",
-    "moleculer": "^0.14.16",
+    "jest": "^27.4.3",
+    "moleculer": "^0.14.18",
     "uuid": "^8.3.2"
   },
   "dependencies": {
     "jsonwebtoken": "^8.5.1",
-    "neo4j-driver": "^4.3.3"
+    "neo4j-driver": "^4.4.1"
   }
 }
